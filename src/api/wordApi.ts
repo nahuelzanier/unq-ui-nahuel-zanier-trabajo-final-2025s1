@@ -1,3 +1,5 @@
+import type { LetterResult, AnswerBody } from "../types/types";
+
 const API_BASE = "https://word-api-hmlg.vercel.app/api";
 
 export async function getDifficulties() {
@@ -20,17 +22,23 @@ export async function getSessionByDifficulty(id: string) {
     }
 }
 
-export async function checkWord(sessionId: string, word: string) {
-    try {
-        const res = await fetch(`${API_BASE}/checkWord`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ sessionId, word }),
-        });
-        if (res.status === 400) throw new Error("Palabra inválida");
-        if (res.status === 404) throw new Error("Sesión no válida");
-        return res.json();
-    } catch (error) {
-        throw new Error("No se pudo verificar la palabra");
+export async function checkWord(sessionId: string, word: string): Promise<LetterResult[]> {
+    const answerBody : AnswerBody = {
+        sessionId: sessionId,
+        word: word
     }
+    const response = await fetch(`${API_BASE}/checkWord`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(answerBody)
+  });
+
+  if (!response.ok) {
+    const error = await response.json();
+    throw new Error(error.message || "Error desconocido");
+  }
+
+  return response.json();
 }

@@ -30,10 +30,16 @@ export default function DifficultySelector({ onSessionStart }: Props) {
         if (!selectedId) return;
 
         try {
-        const session = await getSessionByDifficulty(selectedId);
+        const rawSession = await getSessionByDifficulty(selectedId);
+        console.log(rawSession)
+        const session: GameSession = {
+            sessionId: rawSession.sessionId,
+            difficulty: rawSession.difficulty,
+            wordLength: rawSession.wordLenght,
+        };
         onSessionStart(session);
         } catch (err: any) {
-        alert("Error al iniciar sesión: " + err.message);
+            alert("Error al iniciar sesión: " + err.message);
         }
     };
 
