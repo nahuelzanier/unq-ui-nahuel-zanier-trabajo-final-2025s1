@@ -8,6 +8,7 @@ Consiste en un juego tipo Wordle que utiliza una API provista por la cátedra.
 
 git clone https://github.com/nahuelzanier/unq-ui-nahuel-zanier-trabajo-final-2025s1
 cd unq-ui-nahuel-zanier-trabajo-final-2025s1
+
 npm install
 
 ## Correr localmente
